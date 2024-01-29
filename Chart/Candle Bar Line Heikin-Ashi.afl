@@ -1,0 +1,61 @@
+_SECTION_BEGIN("Price Chart");
+
+///////////////////Code AFL by Chaiset Setindex Chart V 2.0 ///////////
+PriceStyle = ParamList("Price Style", "Bar|Solid Candle|Line|Heikin-Ashi",1);
+ColorBull = ParamColor("Price Bull", colorGreen);
+ColorBear = ParamColor("Price Bear", colorRed);
+ColorLine = ParamColor("Price Line", colorBlack);
+
+
+SetChartOptions(0,chartShowArrows|chartShowDates);
+
+ThisStyle = styleCandle;
+ThisTitle = "";
+
+_O=O; _C=C; _H=H; _L=L;
+
+ThisColor = IIf( _C>_O, ColorBull, IIf(_C<_O, ColorBear, ColorLine)); 
+
+switch (PriceStyle)
+{
+
+  case "Solid Candle":   
+       SetBarFillColor( ThisColor ); 
+       PlotOHLC( _O, _H, _L, _C, ThisTitle, ThisColor, ThisStyle|styleNoLabel,0,-5,0);
+       break;
+
+
+  case "Bar": 
+       ThisStyle = styleBar;
+       PlotOHLC( _O, _H, _L, _C, ThisTitle, ThisColor, ThisStyle|styleThick|styleNoLabel,0,-5,0);
+       break;
+
+  case "Line": 
+       ThisStyle = styleLine;
+       ThisColor = IIf(_C >= _O,ColorBull, ColorBear);       SetBarFillColor( ThisColor );
+       PlotOHLC( _O, _H, _L, _C, ThisTitle, ThisColor, ThisStyle|styleNoLabel,0,-5,0);
+       break;
+
+  case "Heikin-Ashi": 
+       
+       _C = (C+H+L+C)/4; 
+       _O = AMA( Ref( _C, -1 ), 0.5 ); 
+       _H = Max( H, Max( _C, _O ) ); 
+       _L = Min( L, Min( _C, _O ) ); 
+
+       ThisColor = IIf(_C >= _O,ColorBull, ColorBear);
+       SetBarFillColor( ThisColor );
+         
+       ThisColor = IIf(_C >= _O,ColorBull, ColorBear);//cLine
+       ThisTitle = "Heikin-Ashi";
+       PlotOHLC( _O, _H, _L, _C, ThisTitle, ThisColor, ThisStyle|styleNoLabel,0,-5,0);     
+       break;
+
+
+  default:     
+        SetBarFillColor( ThisColor ); 
+        ThisColor = cLine;
+       break;
+
+}
+_SECTION_END();  
