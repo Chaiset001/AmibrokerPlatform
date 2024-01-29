@@ -1,0 +1,29 @@
+_SECTION_BEGIN("MACD");
+//////// Code AFL by AmibrokerPltform MACD V 1.1 ///////
+r1 = Param( "Fast avg", 12, 2, 200, 1 );
+r2 = Param( "Slow avg", 26, 2, 200, 1 );
+r3 = Param( "Signal avg", 9, 2, 200, 1 );
+ml = MACD(r1, r2);
+sl = Signal(r1,r2,r3);
+Hitg = ml-sl;
+_SECTION_END();
+_SECTION_BEGIN(" Color Histogram ");
+MACUP = Hitg > Ref(Hitg,-1);
+MACDN = Hitg < Ref(Hitg,-1);
+HistogramUp = ParamColor("Histogram Up", colorLime );
+HistogramDown = ParamColor("Histogram Down", colorOrange );
+BarColor = IIf(MACUP,HistogramUp ,IIf(MACDN,HistogramDown,colorBlue));
+_SECTION_END();
+_SECTION_BEGIN("");
+if (ParamToggle("MACD & Signal","Off|On",1))
+{
+Plot( Hitg, "", BarColor , styleHistogram|styleThick|styleOwnScale , Null, Null, 0, 1 , -50 );
+}
+_SECTION_END();
+_SECTION_BEGIN("");
+if (ParamToggle("MACD & Signal","Off|On",1))
+{
+Plot( ml = MACD(r1, r2), StrFormat(_SECTION_NAME()+"MACD(%g,%g)", r1, r2), ParamColor("MACD Color ", colorRed ), ParamStyle("MACD Style"), Null, Null, 0, 2 );
+Plot( sl = Signal(r1,r2,r3),StrFormat(_SECTION_NAME()+"Signal(%g,%g,%g)", r1, r2,r3) , ParamColor("Signal Color ", colorBlue ), ParamStyle("Signal Style"), Null, Null, 0, 2 );
+}
+_SECTION_END();
