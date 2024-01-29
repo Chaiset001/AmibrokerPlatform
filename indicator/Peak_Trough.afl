@@ -1,0 +1,14 @@
+//////// Code AFL by Chaiset index ///////
+
+
+DayPT = Param("Day",1,1,10,1);
+StylePT = ParamStyle("Style Peak Trough",styleLine|styleDashed,maskDefault);
+Upper = ParamColor("Color Peak",colorBlue);
+Lower = ParamColor("Color Trough",colorRed);
+LineUp= Ref(Peak(C,DayPT),-1);
+LineDn= Ref(Trough(C,DayPT),-1);
+
+
+Plot(LineUp,"Peak",Upper,StylePT);
+Plot(LineDn,"Trough",Lower ,StylePT);
+_SECTION_END();
