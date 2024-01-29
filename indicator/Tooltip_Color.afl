@@ -1,0 +1,29 @@
+_SECTION_BEGIN("Tooltip");
+//////// Code AFL by Chaiset index  ToolTip V 1.0///////
+OHLCV = ParamColor("Color OHLC",colorBlack);
+OHLC =ParamColor("Color Price",colorDarkGrey);
+
+if (ParamToggle("Show Price & %","Off|On",1))
+{
+ RequestTimedRefresh( 0.1 );
+ DX= GetCursorXPosition();
+ DT= DateTimeToStr(DX) ;
+ strWeekday = StrMid("---SUNDAY---MONDAY--TUESDAYWEDNESDAY-THURSDAY--FRIDAY--SATURDAY",
+ SelectedValue(DayOfWeek())*9,9);
+ Pchg = C - Ref(C,-1);
+ Chg=Ref(C,-1);
+  if (_DT(DT)>0)
+     {
+      Title = EncodeColor(OHLCV )+ "   " +Title = Name() + "    "
+      +EncodeColor(OHLCV ) + "Date :: "+ EncodeColor(OHLC)  + Date() +EncodeColor(11) + EncodeColor(colorWhite)
+      +EncodeColor(OHLCV )+ "     "+ EncodeColor(colorBlack)+ strWeekday + "\n"
+      +EncodeColor(OHLCV )+ "   Open:  "+ EncodeColor(OHLC)+ WriteVal(O,format=1.2) + "\n"
+      +EncodeColor(OHLCV )+ "   High:   "+ EncodeColor(OHLC) + WriteVal(H,format=1.2) + "\n"
+      +EncodeColor(OHLCV )+ "   Low:    "+ EncodeColor(OHLC)+ WriteVal(L,format=1.2) + "\n"
+      +EncodeColor(OHLCV )+ "   Close: "+ WriteIf(C> Chg,EncodeColor(colorGreen),EncodeColor(colorRed))+ WriteVal(C,format=1.2) + "\n"
+      +EncodeColor(OHLCV )+ "   Change:  "+ WriteIf(C> Chg,EncodeColor(colorGreen),EncodeColor(colorRed))+ WriteVal(C - Ref(C,-1),format=1.2)+ "  /  "
+      + WriteIf(C> Chg,EncodeColor(colorGreen),EncodeColor(colorRed))+ WriteVal(ROC(C,1),format=1.2)+ "%  " +"\n"
+      +EncodeColor(OHLCV  )+ "   Volume:  "+ EncodeColor(OHLC)+ WriteVal(V,format=1.0);
+     }
+}
+_SECTION_END();
