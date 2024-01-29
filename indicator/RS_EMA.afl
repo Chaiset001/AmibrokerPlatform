@@ -1,0 +1,67 @@
+//  TASC Issue - Vol. 40, Issue 10
+
+//   Article: The Relative Strength Exponential Moving Average
+
+//   Relative Strength Exponential Moving Average
+
+//   Author: Vitali Apirine
+
+//   Language: Amibroker AFL
+
+//   Code by: Amibroker Platform
+
+
+
+Plot(C,"",colorDefault,styleCandle);
+
+
+
+function RS_EMA(source,periods,pds,multiplier)
+
+{ 
+
+   mltp1 = 2 / (periods + 1);
+
+   diff = C - Ref(C,-1);
+
+   cup = IIf(diff > 0 , diff , 0 );
+
+   cdn = IIf( diff < 0 , abs(diff) , 0);
+
+   acup = EMA(cup , pds);
+
+   acdn = EMA(cdn , pds);
+
+   rs = abs(acup - acdn);
+
+   rs /= (acup + acdn + 0.00001);
+
+   rs *= multiplier;
+
+   rate = mltp1 * ( 1 + rs);
+
+   rsema = Close;
+
+
+
+   for( i = 1;i < BarCount;i++ ) 
+
+   { 
+
+      prev[i] =Nz(rsema[i-1]);
+
+      rsema[i] = prev[i] + rate[i] * ( Close[i] - prev[i]);  
+
+   }
+
+  return rsema;
+
+}
+
+
+
+EMA_RS = RS_EMA(C,50,50,10);
+
+Plot(EMA_RS,"",colorLime,styleThick);
+
+Plot(EMA(C,50),"",colorred,styleLine);
