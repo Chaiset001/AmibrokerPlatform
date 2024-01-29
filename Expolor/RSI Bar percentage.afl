@@ -1,0 +1,9 @@
+Filter = C;
+rank = RSI();
+Color = ColorHSB( 64-rank * 64/100, 255, 255 ); 
+AddColumn( rank, "RSI - Relative Strength Index", 1.2, colorDefault, Color, -1, rank );
+///////////////////////////////////////////////////
+Filter = C;
+rank = RSI();
+Color = ColorHSB( rank * 64/100, 255, 255 );
+AddColumn( rank, "RSI - Relative Strength Index", 1.2, colorDefault, Color, -1, rank );
