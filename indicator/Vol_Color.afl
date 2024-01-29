@@ -1,0 +1,10 @@
+_SECTION_BEGIN("Volume");
+//////// Code AFL by Chaiset index Vol V 1.0 ///////
+Hist = Param( "Hist Vol ", -50, -70, 5, 1 );
+Plot( Volume, "Volume", IIf( C > O, ParamColor("Up Color", colorBlue ), ParamColor("Down Color", colorRed ) ), ParamStyle( "Style", styleHistogram, maskHistogram ), Null, Null, 0, 1 ,Hist );
+_SECTION_END();
+_SECTION_BEGIN("MA");
+P = ParamField("Price field",-1);
+Periods = Param("Periods", 25, 2, 300, 1, 10 );
+Plot( MA( P, Periods ), "MA", ParamColor( "Color", colorGreen ), ParamStyle("Style",styleLine), Null, Null, 0, 2 );
+_SECTION_END();
