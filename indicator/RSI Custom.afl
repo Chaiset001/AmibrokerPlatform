@@ -1,0 +1,25 @@
+_SECTION_BEGIN("");
+//////// Custom AFL by Chaiset index RSI 2.1 ///////
+SetChartOptions(0,0,chartGrid30|chartGrid50|chartGrid70);
+periods = Param( "Periods", 14, 1, 100, 1 );
+MaxLine = Param( "Overbought Line", 70, 50, 100, 1 );
+MinLine = Param( "Oversold Line", 30, 1, 50, 1 );
+
+ColorRSI =  ParamColor("Color Overbought/sold Line ",colorGrey50);
+StyleRSI =  ParamStyle("Style Overbought/sold ",styleLine|styleNoLabel);
+Plot( RSI( periods), StrFormat(_SECTION_NAME()+"RSI(%g)", periods ), ParamColor( "RSI Line", colorBlue ), ParamStyle("RSI Style",styleLine|styleThick) );
+
+R = RSI(periods);
+ColorOverbought =  ParamColor("Color Overbought ",colorBrightGreen);
+ColorOversold   =  ParamColor("Color Oversold ",colorRed);
+
+PlotOHLC( R,R,50,R, "", IIf( r > 50, ColorOversold ,ColorOverbought  ), styleCloud  |styleNoLabel | styleClipMinMax, MinLine, MaxLine );
+
+if (ParamToggle("RSI Line%","Off|On",1))
+{
+Plot(MaxLine,"",ColorRSI,StyleRSI);
+Plot(MinLine,"",ColorRSI,StyleRSI);
+Plot(50,"",ColorRSI,StyleRSI);
+}
+
+_SECTION_END();
