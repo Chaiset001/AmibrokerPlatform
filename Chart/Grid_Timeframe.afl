@@ -1,0 +1,34 @@
+_SECTION_BEGIN("Grid_Month_Week_Quarter");
+///////////////////Code AFL by Chaiset Setindex Grid Timeframe  V 1.0 ///////////
+
+ShowGrid  = ParamList("Grid", "Grid_Quarter|Off|Grid_Week|Grid_Month|Grid_year",1);
+
+color_Grid = ParamColor("Color_Grid",colorBlue);
+Style_Grid = ParamStyle("Style_Grid ",styleHistogram|styleNoLabel|styleNoRescale|styleOwnScale,maskAll);
+
+switch (ShowGrid )
+{
+  case "Grid_Quarter":
+        LastDayofQuarter = Month() != Ref(Month(), 1)
+        AND (Month() == 3 OR Month() == 6 OR Month() == 9 OR Month() == 12);
+        Last_Quarter = IIf(Ref(LastDayofQuarter,-1), 1, 0);
+        Plot(Last_Quarter, "", color_Grid, Style_Grid);
+  break;
+  case "Grid_Month":
+        Grid_Month = IIf(Month() != Ref(Month(),-1), 1, 0);
+        Plot(Grid_Month, "", color_Grid, Style_Grid );
+  break;
+  case "Grid_year":
+        Grid_year = IIf(Year() != Ref(Year(),-1), 1, 0);
+        Plot(Grid_year, "", color_Grid, Style_Grid );
+  break;
+  case "Grid_Week":
+        Grid_Week = IIf(DayOfWeek() < Ref(DayOfWeek(), -1), 1, 0);
+        Plot(Grid_Week, "", color_Grid, Style_Grid );
+  break;
+  case "off":  
+        0;
+  break;
+}
+
+_SECTION_END();
