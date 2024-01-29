@@ -1,0 +1,24 @@
+_SECTION_BEGIN( " Rainbow 3D");
+//////// Code AFL by Chaiset index ///////
+
+increment = Param("Increment" ,1, 1, 10, 1 );
+Saturation = Param("Saturation" , 255, 0, 255 );
+Brightness = Param("Brightness" , 255, 0, 255 );
+StyleRainbow = styleCloud|styleNoLabel|styleNoTitle;
+
+side = 1;
+
+for( i = 20; i < 100; i = i + increment )
+{
+
+Up = ROC(MA( C, i ),i);
+Down = ROC(MA( C, i + increment ),i);
+
+if(ParamToggle("3D Effect", "No|Yes", 1 ))
+
+Side = IIf(up<=down AND Ref( up<=down, 1 ), 1, 0.5 );
+
+PlotOHLC(Up,Up,Down,Down, "MA"+i,ColorHSB( 3*(i - 10),Saturation,Side * Brightness),StyleRainbow );
+}
+
+_SECTION_END( );
