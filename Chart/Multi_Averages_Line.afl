@@ -1,0 +1,89 @@
+_SECTION_BEGIN("MA");  
+//////// Code AFL by Chaiset index ///////
+MAShortPeriods = Param("MA1 Periods", 20, 2, 300, 1, 10 );
+MAMedPeriods = Param("MA2 Periods", 50, 2, 300, 1, 10 );
+MALongPeriods = Param("MA3 Periods", 200, 2, 300, 1, 10 );
+MAOverPeriods = Param("MA4 Periods", 300, 2, 300, 1, 10 );
+AvgField =      ParamField("Field",  3 ) ; 
+
+MA1Color = ParamColor( "MA1 Color", colorRed );
+MA2Color = ParamColor( "MA2 Color", colorPaleGreen );
+MA3Color = ParamColor( "MA3 Color", colorGreen );
+MA4Color = ParamColor( "MA4 Color", colorBlue );
+MAStyle = ParamStyle("AVG Style", styleLine|styleNoTitle);
+Lavg  = ParamList("Indicators Avg", "EMA|MA|WMA|DEMA|TEMA|TSF|Wilders",1);
+
+switch (Lavg)
+{
+  case "EMA": 
+       if (ParamToggle("Display Averages 1","Off|On",1))
+       Plot( EMA( AvgField, MAShortPeriods ), "MA"+MAShortPeriods, MA1Color, MAStyle); 
+       if (ParamToggle("Display Averages2","Off|On",1))
+       Plot( EMA( AvgField, MAMedPeriods ), "MA"+MAMedPeriods, MA2Color, MAStyle ); 
+       if (ParamToggle("Display Averages3","Off|On",0))
+       Plot( EMA( AvgField, MALongPeriods ), "MA"+MALongPeriods, MA3Color, MAStyle ); 
+       if (ParamToggle("Display Averages4","Off|On",0))
+       Plot( EMA( AvgField, MAOverPeriods ), "MA"+MAOverPeriods, MA4Color, MAStyle );
+        break;
+  case "MA": 
+       if (ParamToggle("Display Averages1","Off|On",1))
+       Plot( MA( AvgField, MAShortPeriods ), "MA"+MAShortPeriods, MA1Color, MAStyle); 
+       if (ParamToggle("Display Averages2","Off|On",1))
+       Plot( MA( AvgField, MAMedPeriods ), "MA"+MAMedPeriods, MA2Color, MAStyle ); 
+       if (ParamToggle("Display Averages3","Off|On",0))
+       Plot( MA( AvgField, MALongPeriods ), "MA"+MALongPeriods, MA3Color, MAStyle ); 
+       if (ParamToggle("Display Averages4","Off|On",0))
+       Plot( MA( AvgField, MAOverPeriods ), "MA"+MAOverPeriods, MA4Color, MAStyle );
+  break;
+  case "WMA": 
+       if (ParamToggle("Display Averages1","Off|On",1))
+       Plot( WMA( C, MAShortPeriods ), "MA"+MAShortPeriods, MA1Color, MAStyle); 
+       if (ParamToggle("Display Averages2","Off|On",1))
+       Plot( WMA( C, MAMedPeriods ), "MA"+MAMedPeriods, MA2Color, MAStyle ); 
+       if (ParamToggle("Display Averages3","Off|On",0))
+       Plot( WMA( C, MALongPeriods ), "MA"+MALongPeriods, MA3Color, MAStyle ); 
+       if (ParamToggle("Display Averages4","Off|On",0))
+       Plot( WMA( C, MAOverPeriods ), "MA"+MAOverPeriods, MA4Color, MAStyle );
+  break;
+  case "DEMA": 
+       if (ParamToggle("Display Averages1","Off|On",1))
+       Plot( DEMA( C, MAShortPeriods ), "MA"+MAShortPeriods, MA1Color, MAStyle); 
+       if (ParamToggle("Display Averages2","Off|On",1))
+       Plot( DEMA( C, MAMedPeriods ), "MA"+MAMedPeriods, MA2Color, MAStyle ); 
+       if (ParamToggle("Display Averages3","Off|On",0))
+       Plot( DEMA( C, MALongPeriods ), "MA"+MALongPeriods, MA3Color, MAStyle ); 
+       if (ParamToggle("Display Averages4","Off|On",0))
+       Plot( DEMA( C, MAOverPeriods ), "MA"+MAOverPeriods, MA4Color, MAStyle );
+  break;
+  case "TEMA": 
+       if (ParamToggle("Display Averages1","Off|On",1))
+       Plot( TEMA( C, MAShortPeriods ), "MA"+MAShortPeriods, MA1Color, MAStyle); 
+       if (ParamToggle("Display Averages2","Off|On",1))
+       Plot( TEMA( C, MAMedPeriods ), "MA"+MAMedPeriods, MA2Color, MAStyle ); 
+       if (ParamToggle("Display Averages3","Off|On",0))
+       Plot( TEMA( C, MALongPeriods ), "MA"+MALongPeriods, MA3Color, MAStyle ); 
+       if (ParamToggle("Display Averages4","Off|On",0))
+       Plot( TEMA( C, MAOverPeriods ), "MA"+MAOverPeriods, MA4Color, MAStyle );
+  break;
+  case "TSF": 
+       if (ParamToggle("Display Averages1","Off|On",1))
+       Plot( TSF( C, MAShortPeriods ), "MA"+MAShortPeriods, MA1Color, MAStyle); 
+       if (ParamToggle("Display Averages2","Off|On",1))
+       Plot( TSF( C, MAMedPeriods ), "MA"+MAMedPeriods, MA2Color, MAStyle ); 
+       if (ParamToggle("Display Averages3","Off|On",0))
+       Plot( TSF( C, MALongPeriods ), "MA"+MALongPeriods, MA3Color, MAStyle ); 
+       if (ParamToggle("Display Averages4","Off|On",0))
+       Plot( TSF( C, MAOverPeriods ), "MA"+MAOverPeriods, MA4Color, MAStyle );
+  break;
+  case "Wilders": 
+       if (ParamToggle("Display Averages1","Off|On",1))
+       Plot( Wilders( C, MAShortPeriods ), "MA"+MAShortPeriods, MA1Color, MAStyle); 
+       if (ParamToggle("Display Averages2","Off|On",1))
+       Plot( Wilders( C, MAMedPeriods ), "MA"+MAMedPeriods, MA2Color, MAStyle ); 
+       if (ParamToggle("Display Averages3","Off|On",0))
+       Plot( Wilders( C, MALongPeriods ), "MA"+MALongPeriods, MA3Color, MAStyle ); 
+       if (ParamToggle("Display Averages4","Off|On",0))
+       Plot( Wilders( C, MAOverPeriods ), "MA"+MAOverPeriods, MA4Color, MAStyle );
+  break;
+}
+_SECTION_END();
