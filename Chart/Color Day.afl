@@ -1,0 +1,4 @@
+D = DayOfWeek();
+Color = IIf(D==1, colorYellow, IIf(D==2, colorPink, IIf(D==3,colorGreen, IIf(D==4, colorOrange, IIf(D==5,colorBlue, colorBlack)))));
+SetBarFillColor( Color );
+PlotOHLC(Open,High,Low,Close,"",Color,styleCandle|styleOwnScale);
