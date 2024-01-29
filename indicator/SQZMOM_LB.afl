@@ -1,0 +1,43 @@
+_SECTION_BEGIN("SQZMOM_LB");
+
+length = Param("BB Length",20,5,100,1);
+mult = Param("BB MultFactor",2.0,0.1,10,0.1);
+lengthKC = Param("KC Length",20,5,100,1);
+multKC = Param("KC MultFactor",1.5,0.1,10,0.1);
+
+useTrueRange  = true;
+    refC1 = Ref(C,-1);
+    tr = Max(H-L, Max(abs(H-refC1), abs(L-refC1)));
+// Calculate BB
+source = C;
+basis = MA(source,length);
+dev = multKC * StDev(source,length);
+upperBB = basis + dev;
+lowerBB = basis - dev;
+
+// Calculate KC
+sma = MA(source,lengthKC);
+range = tr ;
+rangma = MA(range,lengthKC);
+upperKC = sma + rangma * multKC;
+lowerKC = sma - rangma * multKC;
+
+sqzOn = (lowerBB > LowerKC) AND (upperBB < upperKC);
+sqzOff = (lowerBB < LowerKC) AND (upperBB > upperKC);
+noSqz = (sqzOn == False) AND (sqzOff  == false);
+
+hl = (HHV(High,lengthKC) + LLV(Low,lengthKC))/2;
+savg = (hl + MA(Close,lengthKC))/2;
+
+val = LinearReg( source - savg ,lengthKC);
+                         
+ bcolor =  IIf( val > 0,
+               IIf( val > Ref(val,-1), colorLime , colorGreen),
+               IIf( val < Ref(val,-1), colorRed, colorOrange));
+               
+scolor =   IIf( noSqz , colorBlue ,IIf( sqzOn , colorBlack , colorGrey50));      
+
+Plot(val ,"",  bcolor , styleHistogram ,0,0,0,0,-60);
+Plot(0,"",scolor,styleDots ,0,0,0,1,-20);        
+
+_SECTION_END();
