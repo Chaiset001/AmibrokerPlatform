@@ -1,0 +1,9 @@
+Plot(Close,"Close",colorBlack,styleCandle); 
+
+GuiButton( "Tradingview", 3, 5, 20, 90, 30, 7 );
+
+id = GuiGetEvent( 0, 0 );
+event = GuiGetEvent( 0, 1 );
+
+if( id == 3 && event == 1 )
+ShellExecute( "https://th.tradingview.com/chart/ulLUEet6/?symbol=SET%3A" + Name(), "", "" );
