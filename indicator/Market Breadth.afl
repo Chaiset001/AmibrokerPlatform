@@ -1,0 +1,41 @@
+//==================================
+
+Filter = Status("LastBarInTest"); // เเสดงผลตรง Explore Bar ล่าสุด
+
+
+MACDab  = MACD() > 0 ; // เงื่อนไข
+Num   = NOT IsNull(Close); 
+
+AddToComposite( MACDab, "~MACDaboveZero", "X", atcFlagDeleteValues | atcFlagEnableInExplore); // ใส่หุ้นที่เข้าเงื่อนไขลงไปในรูปเเบบ Symbol
+AddToComposite( Num, "~MACD_n", "X", atcFlagDeleteValues | atcFlagEnableInExplore); // ใส่จำนวนหุ้นลงไปในรูปเเบบ Symbol
+
+MACD_Cond = Foreign("~MACDaboveZero", "X"); // เรียกข้อมูลหุ้นที่เข้าเงื่อนไข
+numStock = Foreign("~MACD_n", "X"); // เรียกข้อมูลจำนวนหุ้น
+
+
+Plot(MACD_Cond ,"MACDaboveZero", colorBlue, styleThick); 
+
+//===================================
+
+Pct  = 100 * (MACD_Cond / numStock ); // คำนวณ %
+Plot(Pct,"Pct", colorRed, styleThick);
+
+P = 50;
+CumCond =  Sum(MACD_Cond , P); // Cumulative กำหนดจำนวนวันได้
+Plot(CumCond ,"CumCond ", colorGreen, styleThick);
+
+// ค่าเฉลี่ย Market Breadth
+MAdx10 =  MA(MACD_Cond,10); 
+MAdx20 =  MA(MACD_Cond,25);
+// ค่าเฉลี่ยมาตัดกัน
+Buy = Cross(MAdx10 , MAdx20);  
+
+// Market Breadth มากกว่า 50%
+Buy = Pct  > 50 ; 
+
+// Market Breadth มากกว่า 50 วันที่ผ่านมา
+Buy =  MACD_Cond > HHV(Ref(MACD_Cond,-1),50); 
+
+// Market Breadth Cumulative มากกว่า 50 วันที่ผ่านมา
+Buy = CumCond > HHV(Ref(CumCond,-1),20);
+
