@@ -1,0 +1,7 @@
+_SECTION_BEGIN("background Color");
+//////// Code AFL by Chaiset index background V 1.0 ///////
+BKTop = ParamColor("backgroundTop", colorWhite);
+BKBot = ParamColor("backgroundBottom", colorWhite);
+SetChartBkGradientFill( BKTop ,BKBot, colorWhite);
+SetChartBkColor(ParamColor("Panel Color",colorWhite));
+_SECTION_END();
