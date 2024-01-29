@@ -1,0 +1,61 @@
+//  TASC Issue: September 2022 - Vol. 40, Issue 10
+
+//   Article: The Linear Regression-Adjusted
+
+//   Exponential Moving Average - The LRAdj EMA
+
+//   Author: Vitali Apirine
+
+//   Language: Amibroker AFL
+
+//   Code by: Amibroker Platform
+
+Plot(C,"",colorDefault,styleCandle);
+
+function LRAdjMA( source , Periods , Pds , Mltp)
+
+{
+
+
+
+   Mltp1 = 2 / (Periods + 1);
+
+   LR = LinearReg(source , Pds);
+
+   Dist = abs(LR - source );
+
+   HHVs = HHV(Dist,Pds);
+
+   LLVs = LLV(Dist,Pds);
+
+   LRAdj = (Dist - LLVs) / (HHVs - LLVs+1e-9);
+
+   Mltp2 = LRAdj * Mltp;
+
+   Rate = Mltp1 * (1 + Mltp2) ;
+
+
+
+   LRAdjEMA = 0; 
+
+   for( i = 1;i < BarCount;i++ ) 
+
+  { 
+
+     prev[i] = Nz(LRAdjEMA[i-1],source[i]);
+
+     LRAdjEMA[ i ] = prev[i ] + Rate[i] * (source[i] - prev[ i ]); 
+
+  } 
+
+  return LRAdjEMA;
+
+}
+
+
+
+LRma = LRAdjMA( C , 50 , 50 , 5);
+
+Plot(LRma,"",colorBlue,styleThick);
+
+Plot(EMA(C,20),"",colorred,styleLine);
