@@ -1,0 +1,5 @@
+Buy = Cross(MACD(),Signal());
+Sell = Cross(Signal(),MACD());
+
+PlotShapes(IIf(Buy,shapeSmallUpTriangle,Null), colorGreen, 0, L, -15);
+PlotShapes(IIf(Sell,shapeSmallDownTriangle,Null), colorRed , 0, H, -15);
