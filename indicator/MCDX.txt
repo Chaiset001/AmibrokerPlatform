@@ -1,0 +1,34 @@
+_SECTION_BEGIN("MCDX");
+
+//  https://www.facebook.com/AmibrokerPlatform/
+
+RSIBaseBanker = Param("Banker Base",50,10,100,1);
+RSIPeriodBanker = Param("Banker RSI Period",50,10,100,1);
+RSIBaseHotMoney = Param("Hot Money RSI Base",30,10,100,1);
+RSIPeriodHotMoney = Param("Hot Money RSI Period",40,10,100,1);
+SensitivityBanker = Param("Sensitivity Banker ",1.5,0.1,10,0.1);
+SensitivityHotMoney = Param("Sensitivity Hot Money ",0.7,0.1,10,0.1);
+bankerPeriodMA = Param("MA Banker Period", 10 , 1 ,260 , 1);
+
+RSI_Banker = SensitivityBanker * (RSI(RSIPeriodBanker) - RSIBaseBanker);
+RSI_HotMoney = SensitivityHotMoney * (RSI(RSIPeriodHotMoney ) - RSIBaseHotMoney );
+
+RSI_Banker  =  IIf(RSI_Banker > 20 , 20 , IIf( RSI_Banker < 0 , 0 , RSI_Banker )); 
+RSI_HotMoney  =  IIf( RSI_HotMoney > 20 , 20 , IIf(  RSI_HotMoney < 0 , 0 ,  RSI_HotMoney)); 
+
+BankerMA = MA(RSI_Banker,bankerPeriodMA);  
+
+Plot(BankerMA,"Banker MA",colorBlue,styleThick,0,0,0,2);
+
+ Plot( RSI_Banker," Banker",colorRed,styleHistogram,0,0,0,1,5); 
+ Plot(RSI_HotMoney,"Hot Money",colorYellow,styleHistogram,0,0,0,0,5); 
+ Plot( 20,"Retailer",colorGreen,styleHistogram,0,0,0,-1,5); 
+
+ Plot(15,"",ColorRGB(173,52,203),styleLine,0,0,0,2); //75%
+ Plot(10,"",ColorRGB(173,52,203),styleLine,0,0,0,2); // 50%
+ Plot(5,"",ColorRGB(173,52,203),styleLine,0,0,0,2); // 25%
+
+Buy = Cross( RSI_Banker,BankerMA) ;
+Sell = Cross( BankerMA ,RSI_Banker );
+
+_SECTION_END();
