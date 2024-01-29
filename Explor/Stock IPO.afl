@@ -1,0 +1,4 @@
+Period = EndValue( BarIndex() ) - BeginValue( BarIndex() )+1;
+IPO_n = Period < 60;
+Filter = IPO_n ;
+AddColumn(Period,"IPO Days",1.0);
