@@ -1,0 +1,12 @@
+_SECTION_BEGIN("ROC");
+//////// Code AFL by Chaiset index ROC ///////
+ROCline= ParamColor("ROC Color Line",colorLightOrange);
+ROCTot = ParamColor("ROC Color Top",colorGreen);
+ROCBot = ParamColor("ROC Color Bottom",colorRed );
+
+Period = Param("ROC Period",14,1,250,1 );
+
+SetGradientFill( ROCTot , ROCBot , 0 , GetChartBkColor() );
+Plot( ROC( C, Period), "ROC", ROCline, styleLine | styleGradient ,Null, Null, 0, -1  );
+
+_SECTION_END();
